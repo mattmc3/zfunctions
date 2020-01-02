@@ -1,6 +1,6 @@
 # Adds support for a ${ZDOTDIR:-$HOME}/zfunctions directory to contain
 # lazy-loaded zsh functions
-if [[ -n $ZFUNCDIR ]]; then
+if [[ -z $ZFUNCDIR ]]; then
   if [[ -n $ZDOTDIR ]]; then
     ZFUNCDIR="${ZDOTDIR}/zfunctions"
   else
@@ -17,7 +17,7 @@ done
 unset _zfunc
 
 function funcsave {
-  ### save a function to ~/.ZFUNCDIR for lazy loading
+  ### save a function to $ZFUNCDIR for lazy loading
 
   # check args
   if [[ -z "$1" ]]; then
