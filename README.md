@@ -1,56 +1,45 @@
 # zfunctions plugin
 
-Adds a "zfunctions" directory to store lazy-loaded zsh function files.
+Adds a "functions" directory to store lazy-loaded zsh function files.
 
-This plugin is similar in concept to the [fish] "~/.config/fish/functions"
-directory.
+This plugin is similar in concept to the [fish] "~/.config/fish/functions" directory.
 
 ## Description
 
-This plugin will enable a directory for you to store function files, and
-adds that directory to your zsh 'fpath' variable. Any file placed in this
-directory should contain the innards of a single function definition. These
-files will then be "lazy-loaded" by zsh into a function of the same name upon
-their first call. The lazy-loading functionality is a built-in feature of zsh
-called [function autoloading][zsh-autoload].
+This plugin will enable a directory for you to store function files, and adds that directory to your zsh 'fpath' variable.
+Any file placed in this directory should contain the innards of a single function definition.
+These files will then be "lazy-loaded" by zsh into a function of the same name upon their first call.
+The lazy-loading functionality is a built-in feature of zsh called [function autoloading][zsh-autoload].
 
-Your zfunctions path by default is: `~/.zfunctions`. However, if you have
-`$ZDOTDIR` defined, that will be respected and your path will become
-`$ZDOTDIR/zfunctions`. You can optionally override the path by setting your own
-value for `$ZFUNCDIR` in zshrc:
+Your functions path by default is: `${ZDOTDIR:-$HOME/.config/zsh}/functions`.
+However, you can optionally override the path by setting a zstyle value:
 
 ```zsh
-export ZFUNCDIR=/path/to/my/lazy/zfunctions
+zstyle ':zfunctions:*' 'path' /path/to/my/lazy/zfunctions
 ```
 
 ## Features
 
 The following functions are defined by this plugin:
 
-| Functions | Arguments     | Description                                   |
-|:----------|:--------------|:----------------------------------------------|
-| funced    | \<func-name\> | edit the function specified                   |
-| funcsave  | \<func-name\> | save a function to your `$ZFUNCDIR` directory |
+| Functions | Arguments     | Description                                            |
+|:----------|:--------------|:-------------------------------------------------------|
+| funced    | \<func-name\> | edit the function specified                            |
+| funcsave  | \<func-name\> | save a function to your configured functions directory |
 
-The following variables are defined by this plugin:
-
-| Variables | Description                                                 |
-|:----------|:------------------------------------------------------------|
-| ZFUNCDIR  | The directory to use for storing your lazy-loaded functions |
-
-**Note:** Additionally, the built-in zsh `functions` function will list all the
-zsh functions that are defined. The built-in `function` keyword will allow you
-to define a new function.
+**Note:**
+Additionally, the built-in zsh `functions` command will list all the zsh functions that are defined.
+The built-in `function` keyword will allow you to define a new function.
 
 ## Example
 
-First, make sure you have enabled the zfunctions plugin and started a new zsh
-session. You can verify that zfunctions is enabled by running the following:
+First, make sure you have installed the zfunctions plugin and started a new zsh session.
+You can verify that zfunctions is enabled by running the following:
 
 ```zsh
-zsh
+zstyle -s ':zfunctions:*' 'path' ZFUNCDIR
 echo $ZFUNCDIR
-cd $ZFUNCDIR && ls $ZFUNCDIR
+export ZFUNCDIR
 ```
 
 Now, let's make a quick function to test with called 'foo'.
@@ -77,16 +66,14 @@ Next, we can save the function to `$ZFUNCDIR`.
 funcsave foo
 ```
 
-Now you should have a function file called "foo" in your `$ZFUNCDIR`. Let's
-verify:
+Now you should have a function file called "foo" in your `$ZFUNCDIR`. Let's verify:
 
 ```zsh
 cat $ZFUNCDIR/foo
 ```
 
-Notice that the function was reformatted and also that only the function
-*internals* are saved to the "foo" file, not the function name definition (ie:
-the "`function foo() {`" part is purposely missing).
+Notice that the function was reformatted and also that only the function *internals* are saved to the "foo" file, not the function name definition
+(ie: the "`function foo() {`" part is purposely missing).
 
 ```zsh
 # contents of $ZFUNCDIR/foo
@@ -115,7 +102,7 @@ You should see this:
 ```zsh
 foo () {
     # undefined
-    builtin autoload -XUz /Users/mmcelheny/.zsh/.zfunctions
+    builtin autoload -XUz ~/.config/zsh/functions
 }
 ```
 
@@ -128,8 +115,8 @@ foo
 foo
 ```
 
-Now go back and run `functions foo` again and check out the results... the
-function definition is now filled in from the `foo` file in your `$ZFUNCDIR`.
+Now go back and run `functions foo` again and check out the results...
+The function definition is now filled in from the `foo` file in your `$ZFUNCDIR`.
 
 ```zsh
 foo() {
@@ -151,11 +138,11 @@ funced foo
 funced bar
 ```
 
-That's it! Note that you do not need to use `funcsave` or `funced` if you don't
-prefer to. Adding files to $ZFUNCDIR yourself is also an option.
+That's it! Note that you do not need to use `funcsave` or `funced` if you don't prefer to.
+Adding files to $ZFUNCDIR yourself is also an option.
 
-Here's a great first function to create called "up". Start by typing
-`funced up` and add this to the file:
+Here's a great first function to create called "up".
+Start by typing `funced up` and add this to the file:
 
 ```zsh
 ### $ZFUNCDIR/up
