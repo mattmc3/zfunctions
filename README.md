@@ -33,13 +33,18 @@ The built-in `function` keyword will allow you to define a new function.
 
 ## Example
 
-First, make sure you have installed the zfunctions plugin and started a new zsh session.
+First, make sure you have loaded the zfunctions plugin and started a new zsh session.
 You can verify that zfunctions is enabled by running the following:
 
 ```zsh
-zstyle -s ':zfunctions:*' 'path' ZFUNCDIR
-echo $ZFUNCDIR
-export ZFUNCDIR
+$ (( $+functions[autoload_funcdir1] )) && echo "zfunctions loaded" || echo "zfunctions not loaded"
+zfuncions loaded
+```
+
+Next, let's set a $zfuncdir variable for our examples later
+```zsh
+zstyle -s ':zfunctions:*' 'path' zfuncdir ||
+	zfuncdir=${ZDOTDIR:-$HOME/.config/zsh}/functions
 ```
 
 Now, let's make a quick function to test with called 'foo'.
@@ -60,23 +65,23 @@ function foo() {
 }
 ```
 
-Next, we can save the function to `$ZFUNCDIR`.
+Next, we can save the function.
 
 ```zsh
 funcsave foo
 ```
 
-Now you should have a function file called "foo" in your `$ZFUNCDIR`. Let's verify:
+Now you should have a function file called "foo" in `$zfuncdir`. Let's verify:
 
 ```zsh
-cat $ZFUNCDIR/foo
+cat $zfuncdir/foo
 ```
 
 Notice that the function was reformatted and also that only the function *internals* are saved to the "foo" file, not the function name definition
 (ie: the "`function foo() {`" part is purposely missing).
 
 ```zsh
-# contents of $ZFUNCDIR/foo
+# contents of $zfuncdir/foo
 echo "bar"
 if [[ $[${RANDOM}%2] -eq 0 ]]
 then
@@ -116,7 +121,7 @@ foo
 ```
 
 Now go back and run `functions foo` again and check out the results...
-The function definition is now filled in from the `foo` file in your `$ZFUNCDIR`.
+The function definition is now filled in from the `foo` file in your `$zfuncdir`.
 
 ```zsh
 foo() {
@@ -145,7 +150,7 @@ Here's a great first function to create called "up".
 Start by typing `funced up` and add this to the file:
 
 ```zsh
-### $ZFUNCDIR/up
+### $zfuncdir/up
 # goes up any number of directories
 if [[ "$#" < 1 ]] ; then
   cd ..
