@@ -144,7 +144,7 @@ funced bar
 ```
 
 That's it! Note that you do not need to use `funcsave` or `funced` if you don't prefer to.
-Adding files to $ZFUNCDIR yourself is also an option.
+Adding files to $zfuncdir yourself is also an option.
 
 Here's a great first function to create called "up".
 Start by typing `funced up` and add this to the file:
