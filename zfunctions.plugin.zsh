@@ -2,14 +2,8 @@
 # Adds support for a functions directory to contain lazy-loaded zsh functions
 0=${(%):-%N}
 
-zstyle -s ':zfunctions:*' 'path' _zfuncdir
-if [[ $? -ne 0 ]]; then
-  _zfuncdir=${ZDOTDIR:-$HOME}/.zfunctions
-  # no need to hide zfunctions in $ZDOTDIR, so try that too
-  if [[ -n $ZDOTDIR ]] && [[ ! -d $_zfuncdir ]]; then
-    _zfuncdir=${ZDOTDIR}/zfunctions
-  fi
-fi
+zstyle -s ':zfunctions:*' 'path' _zfuncdir ||
+  _zfuncdir=${ZDOTDIR:-$HOME/.config/zsh}/functions
 
 function autoload_funcdir() {
   ### lazy load functions dir
