@@ -1,9 +1,5 @@
 ### funcsave
-# save a function to $_zfuncdir for lazy loading
-
-local zfuncdir
-zstyle -s ':zfunctions:*' 'path' zfuncdir ||
-  zfuncdir=${ZDOTDIR:-$HOME/.config/zsh}/functions
+# save a function to $ZFUNCDIR for lazy loading
 
 # check args
 if [[ -z "$1" ]]; then
@@ -16,4 +12,4 @@ fi
 autoload +X "$1" > /dev/null
 
 # remove first/last lines (ie: 'function foo {' and '}') and de-indent one level
-type -f "$1" | awk 'NR>2 {print prev} {gsub(/^\t/, "", $0); prev=$0}' >| "$zfuncdir/$1"
+type -f "$1" | awk 'NR>2 {print prev} {gsub(/^\t/, "", $0); prev=$0}' >| "$ZFUNCDIR/$1"

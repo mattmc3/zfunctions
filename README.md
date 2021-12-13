@@ -37,14 +37,13 @@ First, make sure you have loaded the zfunctions plugin and started a new zsh ses
 You can verify that zfunctions is enabled by running the following:
 
 ```zsh
-$ (( $+functions[autoload_funcdir1] )) && echo "zfunctions loaded" || echo "zfunctions not loaded"
+$ (( $+functions[autoload_funcdir] )) && echo "zfunctions loaded" || echo "zfunctions not loaded"
 zfuncions loaded
 ```
 
-Next, let's set a $zfuncdir variable for our examples later
+Next, let's set a $ZFUNCDIR variable for our examples
 ```zsh
-zstyle -s ':zfunctions:*' 'path' zfuncdir ||
-	zfuncdir=${ZDOTDIR:-$HOME/.config/zsh}/functions
+ZFUNCDIR=${ZDOTDIR:-$HOME/.config/zsh}/functions
 ```
 
 Now, let's make a quick function to test with called 'foo'.
@@ -56,12 +55,12 @@ From a zsh prompt, define this function:
 ```zsh
 # 'foo' with comments and custom formatting
 function foo() {
-  # print bar
-  echo "bar"
-  # and sometimes baz
-  if [[ $[${RANDOM}%2] -eq 0 ]]; then
-    echo "baz"
-  fi
+    # print bar
+    echo "bar"
+    # and sometimes baz
+    if [[ $[${RANDOM}%2] -eq 0 ]]; then
+        echo "baz"
+    fi
 }
 ```
 
@@ -71,10 +70,10 @@ Next, we can save the function.
 funcsave foo
 ```
 
-Now you should have a function file called "foo" in `$zfuncdir`. Let's verify:
+Now you should have a function file called "foo" in `$ZFUNCDIR`. Let's verify:
 
 ```zsh
-cat $zfuncdir/foo
+cat $ZFUNCDIR/foo
 ```
 
 Notice that the function was reformatted and also that only the function *internals* are saved to the "foo" file, not the function name definition
@@ -121,7 +120,7 @@ foo
 ```
 
 Now go back and run `functions foo` again and check out the results...
-The function definition is now filled in from the `foo` file in your `$zfuncdir`.
+The function definition is now filled in from the `foo` file in your `$ZFUNCDIR`.
 
 ```zsh
 foo() {
@@ -144,20 +143,20 @@ funced bar
 ```
 
 That's it! Note that you do not need to use `funcsave` or `funced` if you don't prefer to.
-Adding files to $zfuncdir yourself is also an option.
+Adding files to $ZFUNCDIR yourself is also an option.
 
 Here's a great first function to create called "up".
 Start by typing `funced up` and add this to the file:
 
 ```zsh
-### $zfuncdir/up
+### $ZFUNCDIR/up
 # goes up any number of directories
 if [[ "$#" < 1 ]] ; then
-  cd ..
+    cd ..
 else
-  local rpt=$(printf "%${1}s")
-  local cdstr=${rpt// /..\/}
-  cd $cdstr
+    local rpt=$(printf "%${1}s")
+    local cdstr=${rpt// /..\/}
+    cd $cdstr
 fi
 ```
 

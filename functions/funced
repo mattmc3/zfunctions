@@ -1,9 +1,7 @@
 ### funced
 # edit the function specified
 
-local zfuncdir
-zstyle -s ':zfunctions:*' 'path' zfuncdir ||
-  zfuncdir=${ZDOTDIR:-$HOME/.config/zsh}/functions
+ZFUNCDIR="${ZFUNCDIR:-${ZDOTDIR:-$HOME/.config/zsh}/functions}"
 
 # check args
 if [[ -z "$1" ]]; then
@@ -11,8 +9,8 @@ if [[ -z "$1" ]]; then
 fi
 
 # new function definition: make a file template
-if [[ ! -f "$zfuncdir/$1" ]]; then
-  cat <<eos > "$zfuncdir/$1"
+if [[ ! -f "$ZFUNCDIR/$1" ]]; then
+  cat <<eos > "$ZFUNCDIR/$1"
 # Add function internals here.
 # Do NOT include function definition (ie: omit 'function $1() {').
 # See: http://zsh.sourceforge.net/Doc/Release/Functions.html#Autoloading-Functions
@@ -21,7 +19,7 @@ fi
 
 # open the function file
 if [[ -z "$VISUAL" ]]; then
-  $VISUAL "$zfuncdir/$1"
+  $VISUAL "$ZFUNCDIR/$1"
 else
-  ${EDITOR:-nano} "$zfuncdir/$1"
+  ${EDITOR:-vim} "$ZFUNCDIR/$1"
 fi
