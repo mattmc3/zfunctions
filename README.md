@@ -1,8 +1,8 @@
 # zfunctions plugin
 
-Adds a "functions" directory to store lazy-loaded zsh function files.
+Use a `$ZDOTDIR/functions` directory to store lazy-loaded zsh function files.
 
-This plugin is similar in concept to the [fish] "~/.config/fish/functions" directory.
+This plugin is similar in concept to the [fish] functions directory.
 
 ## Description
 
@@ -12,10 +12,10 @@ These files will then be "lazy-loaded" by zsh into a function of the same name u
 The lazy-loading functionality is a built-in feature of zsh called [function autoloading][zsh-autoload].
 
 Your functions path by default is: `${ZDOTDIR:-$HOME/.config/zsh}/functions`.
-However, you can optionally override the path by setting a zstyle value:
+However, you can optionally override the path by setting the `$ZFUNCDIR` value:
 
 ```zsh
-zstyle ':zfunctions:*' 'path' /path/to/my/lazy/zfunctions
+ZFUNCDIR=/path/to/my/lazy/zfunctions
 ```
 
 ## Features
@@ -37,7 +37,7 @@ First, make sure you have loaded the zfunctions plugin and started a new zsh ses
 You can verify that zfunctions is enabled by running the following:
 
 ```zsh
-$ (( $+functions[autoload_funcdir] )) && echo "zfunctions loaded" || echo "zfunctions not loaded"
+$ (( $+functions[autoload-dir] )) && echo "zfunctions loaded" || echo "zfunctions not loaded"
 zfuncions loaded
 ```
 
@@ -80,7 +80,7 @@ Notice that the function was reformatted and also that only the function *intern
 (ie: the "`function foo() {`" part is purposely missing).
 
 ```zsh
-# contents of $zfuncdir/foo
+# contents of $ZFUNCDIR/foo
 echo "bar"
 if [[ $[${RANDOM}%2] -eq 0 ]]
 then
