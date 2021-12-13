@@ -114,9 +114,13 @@ Now execute the `foo` function once (or do it a few times for fun):
 
 ```zsh
 # outputs bar, and sometimes baz
-foo
-foo
-foo
+$ foo
+bar
+$ foo
+bar
+baz
+$ foo
+bar
 ```
 
 Now go back and run `functions foo` again and check out the results...
@@ -143,7 +147,9 @@ funced bar
 ```
 
 That's it! Note that you do not need to use `funcsave` or `funced` if you don't prefer to.
-Adding files to $ZFUNCDIR yourself is also an option.
+Adding files to `$ZFUNCDIR` yourself is also an option. Just remember that your function
+files should be named without a file extension (ie: foo, not foo.zsh), and should not
+contain the function declaration part (ie: `function foo() {`).
 
 Here's a great first function to create called "up".
 Start by typing `funced up` and add this to the file:
