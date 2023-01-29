@@ -2,18 +2,13 @@
 # Adds support for a functions directory to contain lazy-loaded zsh functions
 0=${(%):-%N}
 
-function autoload-dir() {
-  ### lazy load all functions in a dir
-  [[ -d "$1" ]] || return 1
-  fpath=("$1" $fpath)
-  local fn
-  for fn in "$1"/*(.N); do
-    autoload -Uz "$fn"
-  done
-}
+# Autoload functions directory.
+: ${ZFUNCDIR:=${ZDOTDIR:-${XDG_CONFIG_HOME:=$HOME/.config}/zsh}/functions}
+[[ -d $ZFUNCDIR ]] || return 1
 
-# autoload this plugin's functions
-autoload-dir "${0:A:h}/functions"
-# autoload everything in $ZFUNCDIR
-ZFUNCDIR="${ZFUNCDIR:-${ZDOTDIR:-$HOME/.config/zsh}/functions}"
-autoload-dir "$ZFUNCDIR"
+# Autoload funcdir and subdirs
+for funcdir in $ZFUNCDIR $ZFUNCDIR/*(N/); do
+  fpath=($funcdir $fpath)
+  autoload -Uz $fpath[1]/*(.:t)
+done
+unset funcdir
