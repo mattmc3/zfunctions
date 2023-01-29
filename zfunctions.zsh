@@ -7,7 +7,7 @@
 [[ -d $ZFUNCDIR ]] || return 1
 
 # Autoload funcdir and subdirs
-for funcdir in $ZFUNCDIR $ZFUNCDIR/*(N/); do
+for funcdir in ${0:A:h}/functions $ZFUNCDIR $ZFUNCDIR/*(N/); do
   fpath=($funcdir $fpath)
   autoload -Uz $fpath[1]/*(.:t)
 done
