@@ -17,11 +17,12 @@ fi
 if [[ ! -f "$ZFUNCDIR/$1" ]]; then
   local -a tmpl=(
     '#!/bin/zsh'
+    "##? $1 - description"
     "#function $1 {"
     ''
     '#}'
   )
-  printf "%s\n" $tmpl >"$ZFUNCDIR/$1"
+  printf "%s\n" "${(@)tmpl}" >"$ZFUNCDIR/$1"
   autoload -Uz "$ZFUNCDIR/$1"
 fi
 
