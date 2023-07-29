@@ -37,7 +37,7 @@ First, make sure you have loaded the zfunctions plugin and started a new zsh ses
 You can verify that zfunctions is enabled by running the following:
 
 ```zsh
-$ (( $+functions[autoload-dir] )) && echo "zfunctions loaded" || echo "zfunctions not loaded"
+$ (( $+functions[funcsave] )) && echo "zfunctions loaded" || echo "zfunctions not loaded"
 zfuncions loaded
 ```
 
