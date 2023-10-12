@@ -27,7 +27,7 @@ if [[ ! -f "$ZFUNCDIR/$1" ]]; then
 fi
 
 # open the function file
-if [[ -z "$VISUAL" ]]; then
+if [[ -n "$VISUAL" ]]; then
   $VISUAL "$ZFUNCDIR/$1"
 else
   ${EDITOR:-vim} "$ZFUNCDIR/$1"
