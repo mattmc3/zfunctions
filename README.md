@@ -6,10 +6,10 @@ This plugin is similar in concept to the [fish] functions directory.
 
 ## Description
 
-This plugin will enable a directory for you to store function files, and adds that directory to your zsh 'fpath' variable.
+This plugin will enable a directory for you to store function files, and adds that directory to your Zsh `fpath` variable.
 Any file placed in this directory should contain the innards of a single function definition.
-These files will then be "lazy-loaded" by zsh into a function of the same name upon their first call.
-The lazy-loading functionality is a built-in feature of zsh called [function autoloading][zsh-autoload].
+These files will then be "autoloaded" (aka: lazy loaded) by Zsh into a function of the same name upon their first call.
+The lazy-loading functionality is a built-in feature of Zsh called [function autoloading][zsh-autoload].
 
 Your functions path by default is: `${ZDOTDIR:-$HOME/.config/zsh}/functions`.
 However, you can optionally override the path by setting the `$ZFUNCDIR` value:
@@ -26,6 +26,7 @@ The following functions are defined by this plugin:
 |:----------|:--------------|:-------------------------------------------------------|
 | funced    | \<func-name\> | edit the function specified                            |
 | funcsave  | \<func-name\> | save a function to your configured functions directory |
+| funchelp  | \<func-name\> | print function help, designated via '##?' comments     |
 
 **Note:**
 Additionally, the built-in zsh `functions` command will list all the zsh functions that are defined.
