@@ -12,6 +12,7 @@ setopt extended_glob
 # Autoload Zsh function dir and its subdirs.
 for _zfuncdir in ${0:a:h}/functions $ZFUNCDIR(N) $ZFUNCDIR/*(N/); do
   fpath=($_zfuncdir $fpath)
-  autoload -Uz $_zfuncdir/*(.:t)
+  _zautoloads=($_zfuncdir/*(N.:t))
+  (( $#_zautoloads > 0 )) && autoload -Uz $_zautoloads
 done
-unset _zfuncdir
+unset _zfuncdir _zautoloads
